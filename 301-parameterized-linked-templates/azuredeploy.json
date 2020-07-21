@@ -508,7 +508,7 @@
         {
             "condition": "[equals(parameters('DeployAppGatewayFrontend'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
+            "apiVersion": "2020-06-01",
             "name": "ParameterizedAppGateway",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'frontend-appgateway-ip')]",
@@ -518,7 +518,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('_artifactsLocation'), concat('nested/paramappgateway.json', parameters('_artifactsLocationSasToken')))]"
+                    "relativePath": "nested/paramappgateway.json"
                 },
                 "parameters": {
                     "location": {
@@ -541,7 +541,7 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
+            "apiVersion": "2020-06-01",
             "name": "ParameterizedBackendVM-Loop",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]",
@@ -555,8 +555,8 @@
                     "scope": "inner"
                 },
                 "parameters": {
-                    "templateUri": {
-                        "value": "[uri(parameters('_artifactsLocation'), concat('nested/paramvm.json', parameters('_artifactsLocationSasToken')))]"
+                    "templateRelativePath": {
+                        "value": "nested/paramvm.json"
                     },
                     "location": {
                         "value": "[parameters('location')]"
@@ -605,7 +605,7 @@
                     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
                     "parameters": {
-                        "templateUri": {
+                        "templateRelativePath": {
                             "type": "string"
                         },
                         "location": {
@@ -655,7 +655,7 @@
                     "resources": [
                         {
                             "type": "Microsoft.Resources/deployments",
-                            "apiVersion": "2019-10-01",
+                            "apiVersion": "2020-06-01",
                             "name": "[concat('ParameterizedBackendVM-', copyIndex())]",
                             "copy": {
                                 "name": "ParameterizedBackendVM-Copy",
@@ -664,7 +664,7 @@
                             "properties": {
                                 "mode": "Incremental",
                                 "templateLink": {
-                                    "uri": "[parameters('templateUri')]"
+                                    "relativePath": "[parameters('templateRelativePath')]"
                                 },
                                 "parameters": {
                                     "location": {
@@ -733,7 +733,7 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
+            "apiVersion": "2020-06-01",
             "name": "[concat('ParameterizedMidtierVM-', copyIndex())]",
             "copy": {
                 "name": "ParameterizedMidtierVM-Copy",
@@ -747,7 +747,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('_artifactsLocation'), concat('nested/paramvm.json', parameters('_artifactsLocationSasToken')))]"
+                    "relativePath": "nested/paramvm.json"
                 },
                 "parameters": {
                     "location": {
@@ -805,7 +805,7 @@
         {
             "condition": "[equals(parameters('DeployJumpBoxFrontend'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
+            "apiVersion": "2020-06-01",
             "name": "ParameterizedJumpVM",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('VirtualNetworkName'))]",
@@ -816,7 +816,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('_artifactsLocation'), concat('nested/paramvm.json', parameters('_artifactsLocationSasToken')))]"
+                    "relativePath": "nested/paramvm.json"
                 },
                 "parameters": {
                     "location": {
